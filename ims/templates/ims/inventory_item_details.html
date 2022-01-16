@@ -1,0 +1,22 @@
+{% extends 'ims/base.html' %}
+
+{% block content %}
+    <article class="inventoryitem">
+        <aside class="actions">
+            {% if user.is_authenticated %}
+                <a class="btn btn-secondary" href="{% url 'edit_inventory_item' pk=inventoryitem.pk %}">
+                    {% include './icons/pencil-fill.svg' %}
+                </a>
+                <a class="btn btn-secondary" href="{% url 'delete_inventory_item' pk=inventoryitem.pk %}">
+                    {% include './icons/pencil-fill.svg' %}
+                </a>
+            {% endif %}
+        </aside>
+        <h2><a href="">{{ inventoryitem.title }}</a></h2>
+        <p>{{ inventoryitem.description|linebreaksbr }}</p>
+        <p>In stock: {{ inventoryitem.in_stock }}</p>
+        <p>On hold: {{ inventoryitem.on_hold }}</p>
+        <p>Price: {{ inventoryitem.price }}</p>
+        <p>Last updated on: <time class="date">{{ inventoryitem.last_updated_on }}</time></p>
+    </article>
+{% endblock %}

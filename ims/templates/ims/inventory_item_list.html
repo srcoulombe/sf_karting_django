@@ -1,7 +1,47 @@
-<!DOCTYPE html>
-<hmtl>
-    <body>
-        <p>Hi there!</p>
-        <p>It works!</p>
-    </body>
-</html>
+
+{% extends 'ims/base.html' %}
+{% block content %}
+<table style="border:1px solid #FF0000; vertical-align: top;">
+    <td style="vertical-align: top;">
+        <table style="float: left; border:1px solid #FF0000">
+            {% for item in inventoryitems %}
+                {% if item.in_stock > item.on_hold %}
+                    <tr style="border:1px solid #FF0000;"> 
+                        <td>
+                            <article class="inventoryitem">
+                                <h2><a href="{% url 'inventory_item_details' pk=item.pk %}">{{ item.title }}</a></h2>
+                                <p>{{ item.description|linebreaksbr }}</p>
+                                <p>In stock: {{ item.in_stock }}</p>
+                                <p>On hold: {{ item.on_hold }}</p>
+                                <p>Price: {{ item.price }}</p>
+                                <p>Last updated on: <time class="date">{{ item.last_updated_on }}</time></p>
+                            </article>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </td>
+    <td style="vertical-align: top;">
+        <table style="float: left; border:1px solid #FF0000; vertical-align: top;">
+            {% for item in inventoryitems %}
+                {% if item.in_stock <= item.on_hold %}
+                    <tr>
+                        <td style="vertical-align: top;">
+                            <article class="inventoryitem">
+                                <h2>OUT OF STOCK</h2>
+                                <h2><a href="{% url 'inventory_item_details' pk=item.pk %}">{{ item.title }}</a></h2>
+                                <p>{{ item.description|linebreaksbr }}</p>
+                                <p>In stock: {{ item.in_stock }}</p>
+                                <p>On hold: {{ item.on_hold }}</p>
+                                <p>Price: {{ item.price }}</p>
+                                <p>Last updated on: <time class="date">{{ item.last_updated_on }}</time></p>
+                            </article>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </table>
+    </td>
+</table>            
+{% endblock %}

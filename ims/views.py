@@ -1,7 +1,9 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.views.generic import ListView
 from .models import InventoryItem
 from .forms import InventoryItemForm
 from django.utils import timezone 
+from django.db.models import Q
 
 
 def add_new_inventory_item(request):
@@ -45,3 +47,8 @@ def inventory_item_list(request):
 def inventory_item_details(request, pk: int):
     item = get_object_or_404(InventoryItem, pk=pk)
     return render(request, 'ims/inventory_item_details.html', {'inventoryitem': item})
+
+def search_inventory_items(request):
+    substring = request.GET.get('q')
+    items = InventoryItem.objects.filter(Q(title__contains=substring) | Q(description__contains=substring))
+    return render(request, 'ims/search_results.html', {'inventoryitems': items})

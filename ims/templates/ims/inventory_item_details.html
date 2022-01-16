@@ -13,10 +13,12 @@
             {% endif %}
         </aside>
         <h2><a href="">{{ inventoryitem.title }}</a></h2>
+        <img src="{{ inventoryitem.thumbnail_base64_image_str }}" alt="{{ inventoryitem.title }}">
         <p>{{ inventoryitem.description|linebreaksbr }}</p>
         <p>In stock: {{ inventoryitem.in_stock }}</p>
         <p>On hold: {{ inventoryitem.on_hold }}</p>
         <p>Price: {{ inventoryitem.price }}</p>
+        <p>Minimum quantity in stock: {{ inventoryitem.min_quantity_in_stock }}</p>
         <p>Last updated on: <time class="date">{{ inventoryitem.last_updated_on }}</time></p>
     </article>
 {% endblock %}

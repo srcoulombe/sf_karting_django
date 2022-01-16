@@ -1,3 +1,8 @@
+import base64
+from io import BytesIO  
+
+from PIL import Image
+
 from xml.dom import ValidationErr
 from django.db import models
 from django.conf import settings
@@ -8,10 +13,17 @@ class InventoryItem(models.Model):
     title = models.CharField(max_length=256)
     description = models.TextField()
     
-    on_hold = models.PositiveIntegerField(default=0)
-    in_stock = models.PositiveIntegerField(default=1)
+    on_hold = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
+    in_stock = models.PositiveIntegerField(default=1, validators=[MinValueValidator(0)])
+    
     price = models.DecimalField(decimal_places=2, max_digits=8, validators=[MinValueValidator(0.0)])
     restocking_cost = models.DecimalField(decimal_places=2, max_digits=8, validators=[MinValueValidator(0.0)])
+    min_quantity_in_stock = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0.0)])
+    
+
+
+    user_uploaded_image = models.ImageField(upload_to='images/', default=None)
+
     last_updated_on = models.DateTimeField(default=timezone.now)
     last_updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
 
@@ -31,11 +43,44 @@ class InventoryItem(models.Model):
         if self.restocking_cost < 0.0:
             raise ValidationErr("Restocking cost cannot be a negative value.")
 
+    def _validate_min_quantity_in_stock(self):
+        if self.min_quantity_in_stock < 0:
+            raise ValidationErr("Minimum quantity in stock cannot be a negative value.")
+    
+    def _validate_needs_restocking(self):
+        pass
+        
+    @property
+    def thumbnail_base64_image_str(self):
+        if self.user_uploaded_image is None:
+            return ""
+        # could add pre-computed string if self.image = None
+        thumbnail_size = 100, 100
+        data_img = BytesIO()
+        tiny_img = Image.open(self.user_uploaded_image)
+        tiny_img.thumbnail(thumbnail_size)
+        tiny_img.save(data_img, format="BMP")
+        tiny_img.close() 
+        thumbnail_base64_image_str_ = "data:image/jpg;base64,{}".format(
+            base64.b64encode(data_img.getvalue()).decode("utf-8")
+        )
+        return thumbnail_base64_image_str_
+
+    @property
+    def needs_restocking(self):
+        if (self.in_stock - self.on_hold) < self.min_quantity_in_stock:
+            return True
+        else:
+            return False
+
     def save(self):
         self._validate_on_hold()
         self._validate_in_stock()
         self._validate_price()
         self._validate_restocking_cost()
+        self._validate_min_quantity_in_stock()
+        self._validate_needs_restocking()
+        _ = self.thumbnail_base64_image_str
         self.last_updated = timezone.now()
         return super().save()
     

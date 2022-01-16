@@ -8,13 +8,12 @@ from django.db.models import Q
 
 def add_new_inventory_item(request):
     if request.method == "POST":
-        form = InventoryItemForm(request.POST)
+        form = InventoryItemForm(request.POST, files=request.FILES)
         if form.is_valid():
             inventory_item = form.save(commit=False)
             inventory_item.last_updated_by = request.user
             inventory_item.last_updated_on = timezone.now()
             inventory_item.save()
-            form.save_m2m()
             return redirect('inventory_item_details', pk=inventory_item.pk)
     else:
         form = InventoryItemForm()
@@ -23,13 +22,12 @@ def add_new_inventory_item(request):
 def edit_inventory_item(request, pk: int):
     inventory_item = get_object_or_404(InventoryItem, pk=pk)
     if request.method == "POST":
-        form = InventoryItemForm(request.POST, instance=inventory_item)
+        form = InventoryItemForm(request.POST, instance=inventory_item, files=request.FILES)
         if form.is_valid():
             inventory_item = form.save(commit=False)
             inventory_item.last_updated_by = request.user
             inventory_item.last_updated_on = timezone.now()
             inventory_item.save()
-            form.save_m2m()
             return redirect('inventory_item_details', pk=inventory_item.pk)
     else:
         form = InventoryItemForm(instance=inventory_item)

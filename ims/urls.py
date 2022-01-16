@@ -8,6 +8,5 @@ urlpatterns = [
     path('inventoryitem/add_new_inventory_item/', views.add_new_inventory_item, name='add_new_inventory_item'),
     path('inventoryitem/<int:pk>/edit/', views.edit_inventory_item, name='edit_inventory_item'),
     path('search/', views.search_inventory_items, name='search_results'),
-    #path('search/', views.SearchResultsView.as_view(), name='search_results'),
     
 ]

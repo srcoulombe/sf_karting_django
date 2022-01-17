@@ -1,3 +1,4 @@
+import os
 import base64
 from io import BytesIO  
 
@@ -19,10 +20,8 @@ class InventoryItem(models.Model):
     price = models.DecimalField(decimal_places=2, max_digits=8, validators=[MinValueValidator(0.0)])
     restocking_cost = models.DecimalField(decimal_places=2, max_digits=8, validators=[MinValueValidator(0.0)])
     min_quantity_in_stock = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0.0)])
-    
 
-
-    user_uploaded_image = models.ImageField(upload_to='images/', default=None)
+    user_uploaded_image = models.ImageField(upload_to='images/', default='images/karting.jpg')
 
     last_updated_on = models.DateTimeField(default=timezone.now)
     last_updated_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.DO_NOTHING)
@@ -52,9 +51,6 @@ class InventoryItem(models.Model):
         
     @property
     def thumbnail_base64_image_str(self):
-        if self.user_uploaded_image is None:
-            return ""
-        # could add pre-computed string if self.image = None
         thumbnail_size = 100, 100
         data_img = BytesIO()
         tiny_img = Image.open(self.user_uploaded_image)

@@ -11,12 +11,13 @@
             <center>
                 <div class="container">
                     {% if user.is_authenticated %}
-                        <a href="{% url 'add_new_inventory_item' %}" class="top-menu">
-                            {% include './icons/file-earmark-plus.svg' %}
-                        </a>
                         <a href="{% url 'revert_database' %}" class="top-menu">
                             {% include './icons/save.svg' %}
                         </a>
+                        <a href="{% url 'add_new_inventory_item' %}" class="top-menu">
+                            {% include './icons/file-earmark-plus.svg' %}
+                        </a>
+                        
                     {% endif %}
                     <h1><a href="{% url 'inventory_item_list' %}">Inventory</a></h1>
                 </div>

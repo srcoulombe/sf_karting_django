@@ -12,7 +12,7 @@ from django.core.validators import MinValueValidator
 
 class InventoryItem(models.Model):
     title = models.CharField(max_length=256, unique=True)
-    description = models.TextField()
+    description = models.TextField(default="", blank=True, null=True)
     
     on_hold = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])
     in_stock = models.PositiveIntegerField(default=1, validators=[MinValueValidator(0)])

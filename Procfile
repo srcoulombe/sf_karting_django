@@ -1,0 +1,1 @@
+web: gunicorn sf_karting_project.wsgi

@@ -81,4 +81,4 @@ class InventoryItem(models.Model):
         return super().save()
     
     def __str__(self):
-        return f"{self.title} for ${self.price} ({self.in_stock} items in stock, {self.on_hold} items on hold)"
+        return f"{self.title} for ${self.price} (restocking cost: ${self.restocking_cost}) ({self.in_stock} items in stock, {self.on_hold} items on hold, requires at least {self.min_quantity_in_stock} items in stock). Description: {self.description}"

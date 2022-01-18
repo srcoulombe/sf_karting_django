@@ -11,7 +11,7 @@ from django.utils import timezone
 from django.core.validators import MinValueValidator 
 
 class InventoryItem(models.Model):
-    title = models.CharField(max_length=256)
+    title = models.CharField(max_length=256, unique=True)
     description = models.TextField()
     
     on_hold = models.PositiveIntegerField(default=0, validators=[MinValueValidator(0)])

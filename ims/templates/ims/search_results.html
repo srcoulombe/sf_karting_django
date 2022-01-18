@@ -5,8 +5,8 @@
 <ul>
   {% for item in inventoryitems %}
     <article class="inventoryitem">
-        <img src="{{ inventoryitem.thumbnail_base64_image_str }}" alt="{{ inventoryitem.title }}">
         <h2><a href="{% url 'inventory_item_details' pk=item.pk %}">{{ item.title }}</a></h2>
+        <img src="{{ item.thumbnail_base64_image_str }}" alt="{{ inventoryitem.title }}">
     </article>
   {% endfor %}
 </ul>

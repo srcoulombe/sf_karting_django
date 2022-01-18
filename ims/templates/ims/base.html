@@ -8,21 +8,29 @@
     </head>
     <body>
         <header class="page-header">
-            <div class="container">
-                {% if user.is_authenticated %}
-                    <a href="{% url 'add_new_inventory_item' %}" class="top-menu">
-                        {% include './icons/file-earmark-plus.svg' %}
-                    </a>
-                {% endif %}
-                <h1><a href="{% url 'inventory_item_list' %}">Inventory</a></h1>
-            </div>
+            <center>
+                <div class="container">
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'add_new_inventory_item' %}" class="top-menu">
+                            {% include './icons/file-earmark-plus.svg' %}
+                        </a>
+                        <a href="{% url 'revert_database' %}" class="top-menu">
+                            {% include './icons/save.svg' %}
+                        </a>
+                    {% endif %}
+                    <h1><a href="{% url 'inventory_item_list' %}">Inventory</a></h1>
+                </div>
+            </center>
         </header>
         <main class="container">
             <div class="row">
                 <div class="col">
-                    <form action="{% url 'search_results' %}" method="get">
-                        <input name="q" type="text" placeholder="Search...">
-                    </form>
+                    <center>
+                        <h4>Looking for something specific?</h4>
+                        <form action="{% url 'search_results' %}" method="get">
+                            <input name="q" type="text" placeholder="Search...">
+                        </form>
+                    </center>
                     {% block content %}
                     {% endblock %}
                 </div>

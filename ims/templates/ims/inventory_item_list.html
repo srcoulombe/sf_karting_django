@@ -1,20 +1,21 @@
 {% extends 'ims/base.html' %}
 {% block content %}
-<table style="border:1px solid #FF0000; vertical-align: top;">
-    <td style="vertical-align: top;">
-        <table style="float: left; border:1px solid #FF0000">
+<center>
+<table style="vertical-align: top; table-layout: fixed;">
+    <td style="vertical-align: top; padding: 20px;">
+        <table style="float: left; table-layout: fixed;">
+            <th><h1>In Stock</h1></th>
             {% for item in inventoryitems %}
                 {% if item.in_stock > item.on_hold %}
-                    <tr style="border:1px solid #FF0000;"> 
+                    <tr> 
                         <td>
                             <article class="inventoryitem">
-                                <h2><a href="{% url 'inventory_item_details' pk=item.pk %}">{{ item.title }}</a></h2>
+                                <h3><a href="{% url 'inventory_item_details' pk=item.pk %}">{{ item.title }}</a></h3>
                                 <img src="{{ item.thumbnail_base64_image_str }}" alt="{{ inventoryitem.title }}">
-                                <p>{{ item.description|linebreaksbr }}</p>
+                                <!--<p>{{ item.description|linebreaksbr }}</p>-->
                                 <p>In stock: {{ item.in_stock }}</p>
                                 <p>On hold: {{ item.on_hold }}</p>
                                 <p>Price: {{ item.price }}</p>
-                                <p>Last updated on: <time class="date">{{ item.last_updated_on }}</time></p>
                             </article>
                         </td>
                     </tr>
@@ -22,20 +23,20 @@
             {% endfor %}
         </table>
     </td>
-    <td style="vertical-align: top;">
-        <table style="float: left; border:1px solid #FF0000; vertical-align: top;">
+    <td style="vertical-align: top; padding: 20px;">
+        <table style="float: left; vertical-align: top; table-layout: fixed;">
+            <th><h1>Out-of-Stock</h1></th>
             {% for item in inventoryitems %}
                 {% if item.in_stock <= item.on_hold %}
                     <tr>
                         <td style="vertical-align: top;">
                             <article class="inventoryitem">
-                                <h2>OUT OF STOCK</h2>
-                                <h2><a href="{% url 'inventory_item_details' pk=item.pk %}">{{ item.title }}</a></h2>
-                                <p>{{ item.description|linebreaksbr }}</p>
+                                <h3><a href="{% url 'inventory_item_details' pk=item.pk %}">{{ item.title }}</a></h3>
+                                <!--<p>{{ item.description|linebreaksbr }}</p>-->
+                                <img src="{{ item.thumbnail_base64_image_str }}" alt="{{ inventoryitem.title }}">
                                 <p>In stock: {{ item.in_stock }}</p>
                                 <p>On hold: {{ item.on_hold }}</p>
                                 <p>Price: {{ item.price }}</p>
-                                <p>Last updated on: <time class="date">{{ item.last_updated_on }}</time></p>
                             </article>
                         </td>
                     </tr>
@@ -43,21 +44,21 @@
             {% endfor %}
         </table>
     </td>
-    <td style="vertical-align: top;">
-        <table style="float: left; border:1px solid #FF0000; vertical-align: top;">
+    <td style="vertical-align: top; padding: 20px;">
+        <table style="float: right; vertical-align: top; table-layout: fixed;">
+            <th><h1>In Need of Restock</h1></th>
             {% for item in inventoryitems %}
                 {% if item.needs_restocking and item.in_stock > item.on_hold %}
                     <tr>
                         <td style="vertical-align: top;">
                             <article class="inventoryitem">
-                                <h2>IN NEED OF RESTOCK</h2>
-                                <h2><a href="{% url 'inventory_item_details' pk=item.pk %}">{{ item.title }}</a></h2>
-                                <p>{{ item.description|linebreaksbr }}</p>
+                                <h3><a href="{% url 'inventory_item_details' pk=item.pk %}">{{ item.title }}</a></h3>
+                                <!--<p>{{ item.description|linebreaksbr }}</p>-->
+                                <img src="{{ item.thumbnail_base64_image_str }}" alt="{{ inventoryitem.title }}">
                                 <p>In stock: {{ item.in_stock }}</p>
                                 <p>On hold: {{ item.on_hold }}</p>
                                 <p>Price: {{ item.price }}</p>
                                 <p>Minimum quantity in stock: {{ item.min_quantity_in_stock }}</p>
-                                <p>Last updated on: <time class="date">{{ item.last_updated_on }}</time></p>
                             </article>
                         </td>
                     </tr>
@@ -65,5 +66,6 @@
             {% endfor %}
         </table>
     </td>
-</table>            
+</table>  
+</center>          
 {% endblock %}

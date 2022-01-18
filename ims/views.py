@@ -1,10 +1,12 @@
+import os
+import shutil 
+
 from django.shortcuts import render, get_object_or_404, redirect
-from django.views.generic import ListView
-from .models import InventoryItem
-from .forms import InventoryItemForm
 from django.utils import timezone 
 from django.db.models import Q
 
+from .models import InventoryItem
+from .forms import InventoryItemForm
 
 def add_new_inventory_item(request):
     if request.method == "POST":
@@ -50,3 +52,29 @@ def search_inventory_items(request):
     substring = request.GET.get('q')
     items = InventoryItem.objects.filter(Q(title__contains=substring) | Q(description__contains=substring))
     return render(request, 'ims/search_results.html', {'inventoryitems': items})
+
+def revert_database(request):
+    db_directory_path = backup_db_filepath = os.path.join(
+        os.path.dirname(
+            os.path.dirname(
+                os.path.abspath(__file__)
+            )
+        )
+    )
+    active_db_filepath = os.path.join(
+        db_directory_path,
+        'db.sqlite3'
+    )
+    backup_db_filepath = os.path.join(
+        db_directory_path,
+        'backup_db.sqlite3'
+    )
+    assert os.path.isfile(backup_db_filepath)
+    shutil.copyfile(
+        backup_db_filepath, 
+        os.path.splitext(backup_db_filepath)[0]+"_copy.sqlite3"
+    )
+    os.remove(active_db_filepath)
+    os.rename(backup_db_filepath, active_db_filepath)
+    os.rename(os.path.splitext(backup_db_filepath)[0]+"_copy.sqlite3", backup_db_filepath)
+    return inventory_item_list(request)

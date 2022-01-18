@@ -77,14 +77,11 @@ h4 {
     background-color: #C25100;
 }
 
-table{
-    border:1px solid #FF0000;
-}
-    
-table td{
-    border:1px solid #FF0000;
-}
-
 table td, table td * {
     vertical-align: top;
+    border: none;
+}
+
+table {
+    border-collapse: collapse;
 }

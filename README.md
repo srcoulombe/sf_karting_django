@@ -20,8 +20,6 @@ You can download and run the project yourself by following these steps:
 8. Log in with user: `samy` and password: `samy`
 9. You can use the admin dashboard at `http://127.0.0.1:8000/admin/` to execute copy-read-update-delete operations on inventory items, or experience the full web app by navigating to `http://127.0.0.1:8000`.
 
-Alternatively, you can also [view the project live here]()
-
 ## The Story
 This inventory tracking app was built for specific company (which we'll call **SF Karting** for now). This company's logistics activities includes the provisioning, movement, and storage of karting parts, as well as track-side services (rent-a-mechanic, kart tuning, race analytics, and coaching services). 
 

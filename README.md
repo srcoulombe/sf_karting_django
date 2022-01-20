@@ -6,7 +6,7 @@ This project is part of my submission for the Summer 2022 [Shopify Backend Devel
 The task was to build an inventory tracking web application for a logistics company. The challenge's requirements for the app were two-fold: Supporting basic Create, Read, Update and Delete (CRUD) functionality, and adding one additional feature; the additional feature I focused on is **allow\[ing\] image uploads AND store image with generated thumbnails**. More details are included in the **The Web App** section. 
 
 ## Demo!
-![Demo GIF](https://raw.githubusercontent.com/srcoulombe/sf_karting_django/main/demo.gif)
+![Demo GIF](https://github.com/srcoulombe/sf_karting_django/blob/main/demo2.gif?raw=true)
 
 ## Quickstart
 You can download and run the project yourself by following these steps:
